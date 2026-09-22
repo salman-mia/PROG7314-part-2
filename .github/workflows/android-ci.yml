@@ -1,4 +1,4 @@
-name: CampusConnect Android CI
+name: CampusConnect CI
 
 on:
   push:
@@ -9,7 +9,12 @@ on:
       - main
 
 jobs:
-  build-and-test:
+
+  # =========================================================
+  # ANDROID FRONTEND
+  # =========================================================
+  android-build-and-test:
+    name: Android Build and Test
     runs-on: ubuntu-latest
 
     steps:
@@ -29,8 +34,34 @@ jobs:
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
-      - name: Run unit tests
+      - name: Run Android unit tests
         run: ./gradlew test
 
       - name: Build Android application
         run: ./gradlew assembleDebug
+
+
+  # =========================================================
+  # ASP.NET CORE BACKEND
+  # =========================================================
+  backend-build-and-test:
+    name: Backend Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore backend dependencies
+        run: dotnet restore CampusConnect.Backend/CampusConnect.sln
+
+      - name: Build backend
+        run: dotnet build CampusConnect.Backend/CampusConnect.sln --configuration Release --no-restore
+
+      - name: Run backend unit tests
+        run: dotnet test CampusConnect.Backend/CampusConnect.sln --configuration Release --no-build --verbosity normal
