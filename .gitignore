@@ -13,3 +13,21 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Visual Studio / ASP.NET Core
+.vs/
+**/.vs/
+**/bin/
+**/obj/
+
+# User-specific Visual Studio files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Database files
+*.mdf
+*.ldf
+
+# Secrets / local configuration
+secrets.json
