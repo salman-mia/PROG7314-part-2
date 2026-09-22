@@ -19,7 +19,9 @@ import kotlinx.coroutines.flow.asStateFlow
 /**
  * Repository for CampusConnect.
  *
- * Authentication and Campus Events are connected to the ASP.NET REST API.
+ * Authentication, Campus Events and Academic Resources
+ * are connected to the ASP.NET REST API.
+ *
  * Prototype data is temporarily retained for features that
  * have not yet been connected to backend endpoints.
  */
@@ -213,32 +215,33 @@ class CampusRepository {
     )
 
     // ---------------------------------------------------------
-    // PROTOTYPE ACADEMIC RESOURCES
+    // ACADEMIC RESOURCES - REAL BACKEND
     // ---------------------------------------------------------
 
-    val resources = listOf(
-        AcademicResource(
-            id = 1,
-            title = "Kotlin fundamentals",
-            moduleCode = "PROG7314",
-            type = "Study guide",
-            description = "A short guide covering Kotlin and Android development."
-        ),
-        AcademicResource(
-            id = 2,
-            title = "Database revision",
-            moduleCode = "INSY7314",
-            type = "Notes",
-            description = "Revision notes covering relational database design."
-        ),
-        AcademicResource(
-            id = 3,
-            title = "Project management template",
-            moduleCode = "PMIC7312",
-            type = "Template",
-            description = "A planning template for student group projects."
-        )
-    )
+    suspend fun getResourcesFromApi(): Result<List<AcademicResource>> {
+
+        return try {
+
+            val resources = ApiClient.service.getResources()
+
+            Log.i(
+                TAG,
+                "Loaded ${resources.size} academic resources from API"
+            )
+
+            Result.success(resources)
+
+        } catch (exception: Exception) {
+
+            Log.e(
+                TAG,
+                "Failed to load academic resources from API",
+                exception
+            )
+
+            Result.failure(exception)
+        }
+    }
 
     // ---------------------------------------------------------
     // PROTOTYPE SOCIETIES
