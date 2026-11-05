@@ -1,18 +1,22 @@
 # CampusConnect
 
-![Android CI](https://github.com/salman-mia/PROG7314-part-2/actions/workflows/android-ci.yml/badge.svg)
+[![CampusConnect CI](https://github.com/salman-mia/PROG7314-part-2/actions/workflows/android-ci.yml/badge.svg)](https://github.com/salman-mia/PROG7314-part-2/actions/workflows/android-ci.yml)
 
-## PROG7314 - Programming 3C - Part 2
+## PROG7314 — Programming 3D | Final Portfolio of Evidence
 
-CampusConnect is a native Android application developed as part of the PROG7314 Programming 3C Portfolio of Evidence.
+CampusConnect is a native Android application developed as part of the PROG7314 Portfolio of Evidence.
 
-The application is designed to provide students with a central platform for accessing campus-related information and services. The prototype combines a Kotlin Android frontend with a custom ASP.NET Core REST API and database-backed functionality.
+The application provides students with a central platform for accessing campus information, academic resources, events and student services.
+
+The project consists of a Kotlin Android frontend, a custom ASP.NET Core REST API and a SQL Server database. This repository contains the application source code, backend source code, automated tests, technical documentation and continuous integration configuration.
+
+**Project status:** Final POE development in progress.
 
 ---
 
 ## Group Members
 
-| Student | Student Number |
+| Group Member | Student Number |
 |---|---|
 | Lushen | ST10439056 |
 | Azhar | ST10327814 |
@@ -20,30 +24,43 @@ The application is designed to provide students with a central platform for acce
 
 ---
 
-## Purpose and Scope
+## 1. Purpose and Scope
 
-The purpose of CampusConnect is to provide students with a single mobile application through which they can access useful campus information and interact with selected campus services.
+CampusConnect aims to improve student access to campus-related information and services through a single mobile application.
 
-The Part 2 prototype includes functionality relating to:
+The project includes functionality relating to:
 
-- User authentication
-- Campus events
-- Event RSVP functionality
+- User registration and authentication
+- Campus events and RSVP management
 - Academic resources
 - Announcements
-- Societies
+- Student societies
 - Lost and Found
 - Campus services
 - Student leaderboard
 - User settings
 
-The application has been structured so that prototype functionality can progressively be connected to the custom REST API and database.
+The application is designed to integrate selected features with the custom REST API and database.
+
+### Final POE Development Requirements
+
+The final assessment includes the following advanced capabilities, which must be verified before final release:
+
+- Single Sign-On authentication
+- Biometric authentication
+- Offline functionality with data synchronisation
+- Firebase Cloud Messaging notifications
+- Support for at least two official South African languages
+- Cloud-hosted REST API integration
+- Custom application icon and production assets
+
+These items are assessment requirements, not claims of completed implementation.
 
 ---
 
-## Technology Stack
+## 2. Technology Stack
 
-### Android Application
+### Android Frontend
 
 - Kotlin
 - Android Studio
@@ -63,19 +80,20 @@ The application has been structured so that prototype functionality can progress
 - JWT-based API authentication
 - Swagger / OpenAPI
 
-### DevOps and Version Control
+### DevOps
 
 - Git
 - GitHub
 - GitHub Actions
 - Gradle automated builds
-- Automated unit testing
+- .NET automated builds
+- Android and backend unit testing
 
 ---
 
-## Application Architecture
+## 3. Application Architecture
 
-CampusConnect follows a layered structure that separates the user interface, application data, networking and backend functionality.
+CampusConnect uses a layered architecture separating presentation, data access, networking and backend functionality.
 
 ```text
 Android Application
@@ -99,14 +117,16 @@ Entity Framework Core
 SQL Server Database
 ```
 
-This structure improves maintainability by separating the presentation layer from API communication and data-management responsibilities.
+The Android application communicates with the backend through REST endpoints. The backend processes supported requests and uses Entity Framework Core to access persistent data.
+
+The final deployment architecture will be documented once the cloud-hosting configuration is confirmed.
 
 ---
 
-## Project Structure
+## 4. Repository Structure
 
 ```text
-CampusConnect
+CampusConnect/
 |
 |-- .github/
 |   `-- workflows/
@@ -115,15 +135,13 @@ CampusConnect
 |-- app/
 |   `-- src/
 |       |-- main/
-|       |   `-- java/com/example/campusconnect/
-|       |       |-- auth/
-|       |       |-- data/
-|       |       |-- model/
-|       |       |-- network/
-|       |       `-- ui/
-|       |
 |       |-- test/
 |       `-- androidTest/
+|
+|-- CampusConnect.Backend/
+|   |-- CampusConnect.API/
+|   |-- tests/
+|   `-- CampusConnect.sln
 |
 |-- gradle/
 |-- build.gradle.kts
@@ -134,223 +152,275 @@ CampusConnect
 `-- README.md
 ```
 
+The repository contains the Android frontend and Visual Studio backend within one shared version-control project.
+
 ---
 
-## REST API Integration
+## 5. REST API Integration
 
-CampusConnect uses Retrofit to communicate with the custom ASP.NET Core REST API.
+The Android application uses Retrofit to communicate with the custom ASP.NET Core REST API.
 
-The networking layer is responsible for sending requests to the backend and converting JSON responses into Kotlin objects used by the application.
+API functionality developed during the prototype includes:
 
-API functionality implemented during development includes:
-
-- User login and registration
+- User registration and login
 - Retrieving campus events
-- Creating an event RSVP
-- Cancelling an event RSVP
+- Creating event RSVPs
+- Cancelling event RSVPs
 - Retrieving academic resources
 
-The event functionality demonstrates communication between the Android application, REST API and SQL Server database.
-
-For example:
+Example data flow:
 
 ```text
 Android App
     |
-    | POST RSVP
+    | REST API Request
     v
 ASP.NET Core API
     |
     v
-SQL Server
+SQL Server Database
     |
-    | Updated RSVP information
-    v
-REST API
-    |
+    | API Response
     v
 Android App
 ```
 
+The final POE requires cloud-hosted API and database integration. Deployment evidence will be added when the final infrastructure is available.
+
 ---
 
-## Version Control
+## 6. Version Control and Collaboration
 
-Git and GitHub are used for source control and collaborative development.
+Git and GitHub are used to manage source code, document changes and support group collaboration.
 
-The project follows a version-control workflow where changes are committed with descriptive commit messages and pushed to the central GitHub repository.
+Development changes are committed with descriptive messages and pushed to the shared repository.
 
-Example commit messages include:
+Examples of development commits include:
 
 ```text
 Add CampusConnect Android application
 Add GitHub Actions CI workflow
 Fix academic resources API integration
 Update project documentation and CI details
+Add CampusConnect ASP.NET Core backend and tests
+Add backend build and automated tests to CI
 ```
 
-This provides a history of changes made throughout development and allows multiple contributors to collaborate through the shared repository.
+The repository's Git history provides a record of development activity.
+
+### Final POE Release Tag
+
+The final deployment commit will be tagged after all required features, documentation and verification tasks are complete.
+
+**Release tag:** Pending final group verification.
 
 ---
 
-## Continuous Integration with GitHub Actions
+## 7. Continuous Integration and Automated Testing
 
-The project uses **GitHub Actions** for Continuous Integration (CI).
+CampusConnect uses GitHub Actions to automatically build and test the application when changes are pushed to the `main` branch or a pull request targets `main`.
 
-The workflow is located at:
+Workflow location:
 
 ```text
 .github/workflows/android-ci.yml
 ```
 
-The workflow is automatically triggered when code is pushed to the `main` branch and when a pull request targets `main`.
+### Android Build and Test
 
-The CI pipeline performs the following steps:
+The Android job:
 
 1. Checks out the repository.
-2. Configures the Java Development Kit.
+2. Configures JDK 17.
 3. Configures Gradle.
-4. Grants execution permission to the Gradle wrapper.
-5. Executes the project's unit tests.
-6. Builds the Android debug application.
+4. Executes Android unit tests.
+5. Builds the Android debug application.
 
-The main commands executed by the pipeline are:
+Commands:
 
 ```bash
 ./gradlew test
 ./gradlew assembleDebug
 ```
 
-A successful GitHub Actions run confirms that the project can be compiled and that the configured unit-test task completes successfully in the CI environment.
+### ASP.NET Core Backend Build and Test
 
----
+The backend job:
 
-## Automated Testing
+1. Checks out the repository.
+2. Configures the .NET SDK.
+3. Restores backend dependencies.
+4. Builds the backend solution.
+5. Executes backend unit tests.
 
-Automated testing is integrated into the GitHub Actions workflow.
-
-Every push to the `main` branch triggers:
+Commands:
 
 ```bash
-./gradlew test
+dotnet restore CampusConnect.Backend/CampusConnect.sln
+dotnet build CampusConnect.Backend/CampusConnect.sln --configuration Release --no-restore
+dotnet test CampusConnect.Backend/CampusConnect.sln --configuration Release --no-build
 ```
 
-If compilation or a unit test fails, GitHub Actions marks the workflow as failed.
+### CI Verification
 
-If the tests and build complete successfully, the workflow receives a green success status.
+Both jobs have completed successfully during development:
 
-This provides automated feedback when changes are introduced into the repository and helps identify integration or compilation problems before submission.
+- Android Build and Test — Passed
+- Backend Build and Test — Passed
+
+These results confirm that the configured build and unit-test tasks completed successfully in the GitHub Actions environment.
+
+The final release will require another successful CI run after all development changes have been merged.
+
+[View GitHub Actions](https://github.com/salman-mia/PROG7314-part-2/actions)
 
 ---
 
-## Building the Application
+## 8. Building and Testing Locally
 
-### Requirements
-
-To build the Android application locally, the following are required:
+### Android Requirements
 
 - Android Studio
 - Android SDK
-- Java/JDK compatible with the project
-- Internet access for Gradle dependencies
+- Compatible JDK
+- Internet access for dependency restoration
 
-### Clone the Repository
+### Clone Repository
 
 ```bash
 git clone https://github.com/salman-mia/PROG7314-part-2.git
 ```
 
-Open the cloned project in Android Studio and allow Gradle to synchronize.
+Open the cloned repository in Android Studio and allow Gradle to synchronise.
 
-### Build
-
-The application can be built using Android Studio or Gradle:
+### Android Build
 
 ```bash
 ./gradlew assembleDebug
 ```
 
-On Windows PowerShell:
+On Windows:
 
 ```powershell
 .\gradlew.bat assembleDebug
 ```
 
-### Run Unit Tests
+### Android Unit Tests
 
 ```bash
 ./gradlew test
 ```
 
-On Windows PowerShell:
+On Windows:
 
 ```powershell
 .\gradlew.bat test
 ```
 
+### Backend
+
+Open the following solution in Visual Studio:
+
+```text
+CampusConnect.Backend/CampusConnect.sln
+```
+
+Alternatively, use the .NET CLI:
+
+```bash
+dotnet restore CampusConnect.Backend/CampusConnect.sln
+dotnet build CampusConnect.Backend/CampusConnect.sln
+dotnet test CampusConnect.Backend/CampusConnect.sln
+```
+
+The backend requires a compatible .NET SDK and an appropriately configured database connection for functionality that accesses SQL Server.
+
+Do not commit production secrets, database passwords or private credentials to the repository.
+
 ---
 
-## GitHub Actions Workflow
+## 9. Final Release Notes
 
-The CI workflow automatically runs for pushes and pull requests involving the `main` branch.
+The final release notes will document the functional changes made since the Part 2 prototype.
 
-Current CI status is displayed at the top of this README through the GitHub Actions status badge.
+The completed release documentation will identify:
 
-The workflow can also be viewed under:
+- Newly implemented advanced features
+- Authentication improvements
+- Offline synchronisation capabilities
+- Notification integration
+- Language and accessibility enhancements
+- Cloud deployment changes
+- User interface and production asset improvements
+- Testing and release verification results
 
-**GitHub Repository -> Actions -> CampusConnect Android CI**
+**Status:** Awaiting final feature implementation and group verification.
 
 ---
 
-## Screenshots
+## 10. Screenshots and Technical Evidence
 
-Screenshots demonstrating the application and development process can be added here.
+Final evidence should include relevant screenshots of:
 
-Recommended evidence includes:
-
-- Login screen
+- Login and authentication screens
 - CampusConnect home screen
-- Campus Events screen
-- Event RSVP functionality
-- Academic Resources screen
-- Settings screen
-- Successful GitHub Actions workflow
-- REST API / Swagger testing
-- Database evidence
+- Campus events and RSVP functionality
+- Academic resources
+- Settings and preferences
+- Completed advanced features
+- Successful GitHub Actions runs
+- REST API functionality
+- Backend database updates
+- Final production application assets
+
+Screenshots will be added once the final application has been verified.
 
 ---
 
-## Demo Video
+## 11. Demonstration Video
 
-The Part 2 demonstration video will be linked here:
+The Final POE requires a narrated demonstration of the completed application running on a physical mobile device.
 
-**Demo Video:** `ADD VIDEO LINK HERE`
+The video must demonstrate the relevant authentication flows, application settings, cloud API integration, offline synchronisation and completed application features.
 
----
+**Final POE demonstration video:** Pending recording and upload.
 
-## Repository
-
-Repository:
-
-https://github.com/salman-mia/PROG7314-part-2
+The final video URL will be inserted here before submission.
 
 ---
 
-## Contributors
+## 12. Production Release and Publication Readiness
 
-**Lushen**  
-Student Number: ST10439056
+The final submission requires evidence of Google Play Store publication readiness, including:
 
-**Azhar**  
-Student Number: ST10327814
+- Signed production APK
+- Promotional screenshots
+- Final application icon and visual assets
 
-**Salman**  
-Student Number: ST10265136
+**Status:** Pending production build and final verification.
 
 ---
 
-## Academic Declaration
+## 13. AI Tooling Declaration
 
-This repository was created for academic purposes as part of the PROG7314 Programming 3C Portfolio of Evidence.
+Any generative AI assistance used during development, documentation, debugging or asset generation will be disclosed in the final submission according to the assessment requirements.
 
-The repository contains the source code, project documentation, version-control history and Continuous Integration configuration used during the development of CampusConnect.
+The final declaration will describe the tools used, their purpose and the group's verification of generated outputs.
+
+---
+
+## 14. Repository
+
+**GitHub:** https://github.com/salman-mia/PROG7314-part-2
+
+**CI Workflow:** https://github.com/salman-mia/PROG7314-part-2/actions
+
+---
+
+## 15. Academic Declaration
+
+CampusConnect was developed for academic purposes as part of the PROG7314 Portfolio of Evidence.
+
+This repository contains project source code, development history, technical documentation, testing infrastructure and Continuous Integration configuration.
+
+Final submission evidence will be completed and verified by the group before release.
