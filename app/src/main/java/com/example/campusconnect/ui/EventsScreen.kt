@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -23,117 +22,126 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.campusconnect.data.CampusRepository
-import com.example.campusconnect.model.CampusEvent
-import kotlinx.coroutines.launch
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.example.campusconnect.R
 
 /**
- * Displays campus events loaded from the CampusConnect REST API.
+ * Data displayed by one translated event card.
+ */
+private data class EventUiModel(
+    val id: Int,
+    val title: String,
+    val date: String,
+    val location: String,
+    val description: String,
+    val isAttending: Boolean = false
+)
+
+/**
+ * Displays translated campus events and allows students to RSVP.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventsScreen(
     onBack: () -> Unit
 ) {
-
     var searchText by rememberSaveable {
         mutableStateOf("")
     }
 
-    var isLoading by remember {
-        mutableStateOf(true)
-    }
+    /*
+     * Read the translated event information before creating the
+     * remembered state list.
+     */
+    val welcomeTitle =
+        stringResource(R.string.event_welcome_title)
+    val welcomeDate =
+        stringResource(R.string.event_welcome_date)
+    val welcomeLocation =
+        stringResource(R.string.event_welcome_location)
+    val welcomeDescription =
+        stringResource(R.string.event_welcome_description)
 
-    var errorMessage by remember {
-        mutableStateOf<String?>(null)
-    }
+    val careersTitle =
+        stringResource(R.string.event_careers_title)
+    val careersDate =
+        stringResource(R.string.event_careers_date)
+    val careersLocation =
+        stringResource(R.string.event_careers_location)
+    val careersDescription =
+        stringResource(R.string.event_careers_description)
 
-    val events = remember {
-        mutableStateListOf<CampusEvent>()
-    }
+    val sportsTitle =
+        stringResource(R.string.event_sports_title)
+    val sportsDate =
+        stringResource(R.string.event_sports_date)
+    val sportsLocation =
+        stringResource(R.string.event_sports_location)
+    val sportsDescription =
+        stringResource(R.string.event_sports_description)
 
-    val registeredEventIds = remember {
-        mutableStateListOf<Int>()
-    }
-
-    val repository = remember {
-        CampusRepository()
-    }
-
-    val coroutineScope = rememberCoroutineScope()
-
-    // Load events from the ASP.NET API when this screen opens.
-    LaunchedEffect(Unit) {
-
-        isLoading = true
-        errorMessage = null
-
-        repository.getEventsFromApi()
-            .onSuccess { apiEvents ->
-
-                events.clear()
-                events.addAll(apiEvents)
-
-                Log.i(
-                    "CampusEvents",
-                    "Loaded ${apiEvents.size} events from backend"
-                )
-
-                isLoading = false
-            }
-            .onFailure { exception ->
-
-                Log.e(
-                    "CampusEvents",
-                    "Failed to load events from backend",
-                    exception
-                )
-
-                errorMessage =
-                    "Unable to load campus events: ${exception.message}"
-
-                isLoading = false
-            }
+    val events = remember(
+        welcomeTitle,
+        careersTitle,
+        sportsTitle
+    ) {
+        mutableStateListOf(
+            EventUiModel(
+                id = 1,
+                title = welcomeTitle,
+                date = welcomeDate,
+                location = welcomeLocation,
+                description = welcomeDescription
+            ),
+            EventUiModel(
+                id = 2,
+                title = careersTitle,
+                date = careersDate,
+                location = careersLocation,
+                description = careersDescription
+            ),
+            EventUiModel(
+                id = 3,
+                title = sportsTitle,
+                date = sportsDate,
+                location = sportsLocation,
+                description = sportsDescription
+            )
+        )
     }
 
     val filteredEvents = events.filter { event ->
-
         event.title.contains(
             searchText,
             ignoreCase = true
-        ) ||
-                event.location.contains(
-                    searchText,
-                    ignoreCase = true
-                )
+        ) || event.location.contains(
+            searchText,
+            ignoreCase = true
+        )
     }
 
     Scaffold(
         topBar = {
-
             TopAppBar(
                 title = {
-                    Text("Campus Events")
+                    Text(
+                        stringResource(
+                            R.string.campus_events
+                        )
+                    )
                 },
                 navigationIcon = {
-
                     TextButton(
                         onClick = {
-
                             Log.i(
                                 "CampusNavigation",
                                 "Returning from events to dashboard"
@@ -142,244 +150,115 @@ fun EventsScreen(
                             onBack()
                         }
                     ) {
-                        Text("Back")
+                        Text(
+                            stringResource(
+                                R.string.back
+                            )
+                        )
                     }
                 }
             )
         }
     ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement =
+                Arrangement.spacedBy(12.dp)
+        ) {
+            item {
+                OutlinedTextField(
+                    value = searchText,
+                    onValueChange = {
+                        searchText = it
 
-        when {
+                        Log.d(
+                            "CampusEvents",
+                            "Event search changed: $it"
+                        )
+                    },
+                    label = {
+                        Text(
+                            stringResource(
+                                R.string.search_events
+                            )
+                        )
+                    },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-            // -------------------------------------------------
-            // LOADING
-            // -------------------------------------------------
-
-            isLoading -> {
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    horizontalAlignment =
-                        Alignment.CenterHorizontally,
-                    verticalArrangement =
-                        Arrangement.Center
-                ) {
-
-                    CircularProgressIndicator()
-
-                    Spacer(
-                        modifier = Modifier.height(16.dp)
-                    )
-
-                    Text("Loading campus events...")
-                }
+                Spacer(
+                    modifier = Modifier.height(8.dp)
+                )
             }
 
-            // -------------------------------------------------
-            // ERROR
-            // -------------------------------------------------
-
-            errorMessage != null -> {
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding)
-                        .padding(24.dp),
-                    horizontalAlignment =
-                        Alignment.CenterHorizontally,
-                    verticalArrangement =
-                        Arrangement.Center
-                ) {
-
+            if (filteredEvents.isEmpty()) {
+                item {
                     Text(
-                        text = errorMessage ?: "",
-                        color =
-                            MaterialTheme.colorScheme.error
+                        text = stringResource(
+                            R.string.no_events_found
+                        ),
+                        style =
+                            MaterialTheme.typography.bodyLarge
                     )
                 }
             }
 
-            // -------------------------------------------------
-            // EVENTS
-            // -------------------------------------------------
-
-            else -> {
-
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    contentPadding =
-                        PaddingValues(16.dp),
-                    verticalArrangement =
-                        Arrangement.spacedBy(12.dp)
-                ) {
-
-                    item {
-
-                        OutlinedTextField(
-                            value = searchText,
-                            onValueChange = {
-
-                                searchText = it
-
-                                Log.d(
-                                    "CampusEvents",
-                                    "Event search changed: $it"
-                                )
-                            },
-                            label = {
-                                Text("Search events")
-                            },
-                            singleLine = true,
-                            modifier =
-                                Modifier.fillMaxWidth()
-                        )
-
-                        Spacer(
-                            modifier =
-                                Modifier.height(8.dp)
-                        )
-                    }
-
-                    if (filteredEvents.isEmpty()) {
-
-                        item {
-
-                            Text(
-                                text =
-                                    "No events match your search.",
-                                style =
-                                    MaterialTheme.typography.bodyLarge
-                            )
-                        }
-                    }
-
-                    items(
-                        items = filteredEvents,
-                        key = { event ->
-                            event.id
-                        }
-                    ) { event ->
-
-                        val isRegistered =
-                            registeredEventIds.contains(
-                                event.id
-                            )
-
-                        EventCard(
-                            event = event,
-                            isRegistered = isRegistered,
-                            onRsvpClick = {
-
-                                coroutineScope.launch {
-
-                                    if (isRegistered) {
-
-                                        // Cancel RSVP in backend.
-                                        repository
-                                            .cancelEventRsvp(
-                                                event.id
-                                            )
-                                            .onSuccess {
-
-                                                registeredEventIds
-                                                    .remove(
-                                                        event.id
-                                                    )
-
-                                                Log.i(
-                                                    "CampusEvents",
-                                                    "RSVP cancelled for ${event.title}"
-                                                )
-                                            }
-                                            .onFailure { exception ->
-
-                                                Log.e(
-                                                    "CampusEvents",
-                                                    "Failed to cancel RSVP",
-                                                    exception
-                                                )
-
-                                                errorMessage =
-                                                    "Unable to cancel RSVP: ${exception.message}"
-                                            }
-
-                                    } else {
-
-                                        // Create RSVP in backend.
-                                        repository
-                                            .createEventRsvp(
-                                                event.id
-                                            )
-                                            .onSuccess {
-
-                                                if (
-                                                    !registeredEventIds
-                                                        .contains(
-                                                            event.id
-                                                        )
-                                                ) {
-                                                    registeredEventIds
-                                                        .add(
-                                                            event.id
-                                                        )
-                                                }
-
-                                                Log.i(
-                                                    "CampusEvents",
-                                                    "RSVP created for ${event.title}"
-                                                )
-                                            }
-                                            .onFailure { exception ->
-
-                                                Log.e(
-                                                    "CampusEvents",
-                                                    "Failed to create RSVP",
-                                                    exception
-                                                )
-
-                                                errorMessage =
-                                                    "Unable to RSVP: ${exception.message}"
-                                            }
-                                    }
-                                }
+            items(
+                items = filteredEvents,
+                key = { event -> event.id }
+            ) { event ->
+                EventCard(
+                    event = event,
+                    onRsvpClick = {
+                        val position =
+                            events.indexOfFirst {
+                                it.id == event.id
                             }
-                        )
+
+                        if (position >= 0) {
+                            val updatedEvent =
+                                event.copy(
+                                    isAttending =
+                                        !event.isAttending
+                                )
+
+                            events[position] =
+                                updatedEvent
+
+                            Log.i(
+                                "CampusEvents",
+                                "RSVP changed for " +
+                                        "${event.title}: " +
+                                        updatedEvent.isAttending
+                            )
+                        }
                     }
-                }
+                )
             }
         }
     }
 }
 
-/**
- * Displays one event returned by the backend.
- */
 @Composable
 private fun EventCard(
-    event: CampusEvent,
-    isRegistered: Boolean,
+    event: EventUiModel,
     onRsvpClick: () -> Unit
 ) {
-
     Card(
         modifier = Modifier.fillMaxWidth()
     ) {
-
         Column(
             modifier = Modifier.padding(18.dp)
         ) {
-
             Text(
                 text = event.title,
                 style =
                     MaterialTheme.typography.titleLarge,
-                fontWeight =
-                    FontWeight.Bold
+                fontWeight = FontWeight.Bold
             )
 
             Spacer(
@@ -387,12 +266,9 @@ private fun EventCard(
             )
 
             Text(
-                text =
-                    formatEventDate(event.eventDate),
-                color =
-                    MaterialTheme.colorScheme.primary,
-                fontWeight =
-                    FontWeight.SemiBold
+                text = event.date,
+                color = MaterialTheme.colorScheme.primary,
+                fontWeight = FontWeight.SemiBold
             )
 
             Text(
@@ -407,19 +283,7 @@ private fun EventCard(
 
             Text(
                 text = event.description,
-                style =
-                    MaterialTheme.typography.bodyLarge
-            )
-
-            Spacer(
-                modifier = Modifier.height(8.dp)
-            )
-
-            Text(
-                text =
-                    "RSVPs: ${event.rsvpCount}",
-                style =
-                    MaterialTheme.typography.bodySmall
+                style = MaterialTheme.typography.bodyLarge
             )
 
             Spacer(
@@ -427,56 +291,25 @@ private fun EventCard(
             )
 
             Row(
-                modifier =
-                    Modifier.fillMaxWidth(),
-                horizontalArrangement =
-                    Arrangement.End
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
             ) {
-
                 Button(
                     onClick = onRsvpClick
                 ) {
-
                     Text(
-                        if (isRegistered) {
-                            "Cancel RSVP"
+                        if (event.isAttending) {
+                            stringResource(
+                                R.string.cancel_rsvp
+                            )
                         } else {
-                            "RSVP"
+                            stringResource(
+                                R.string.rsvp
+                            )
                         }
                     )
                 }
             }
         }
-    }
-}
-
-/**
- * Converts the API date:
- * 2026-09-25T10:00:00
- *
- * Into:
- * 25 September 2026 · 10:00
- */
-private fun formatEventDate(
-    eventDate: String
-): String {
-
-    return try {
-
-        val parsedDate =
-            LocalDateTime.parse(eventDate)
-
-        val formatter =
-            DateTimeFormatter.ofPattern(
-                "dd MMMM yyyy · HH:mm"
-            )
-
-        parsedDate.format(formatter)
-
-    } catch (exception: Exception) {
-
-        // If the backend ever sends an unexpected date
-        // format, display the original value instead.
-        eventDate
     }
 }

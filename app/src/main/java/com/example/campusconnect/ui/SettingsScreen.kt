@@ -1,5 +1,8 @@
 package com.example.campusconnect.ui
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,17 +31,27 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.campusconnect.LocaleHelper
+import com.example.campusconnect.R
 
 /**
  * Allows a student to manage local application preferences.
+ *
+ * English and isZulu are supported using Android string resources.
+ * The selected language is saved and remains active after the
+ * application is restarted.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     onBack: () -> Unit
 ) {
+    val context = LocalContext.current
+
     var notificationsEnabled by rememberSaveable {
         mutableStateOf(true)
     }
@@ -47,8 +60,10 @@ fun SettingsScreen(
         mutableStateOf(true)
     }
 
-    var selectedLanguage by rememberSaveable {
-        mutableStateOf("English")
+    var selectedLanguageCode by rememberSaveable {
+        mutableStateOf(
+            LocaleHelper.getSavedLanguage(context)
+        )
     }
 
     var settingsSaved by rememberSaveable {
@@ -58,10 +73,16 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Settings") },
+                title = {
+                    Text(
+                        stringResource(R.string.settings)
+                    )
+                },
                 navigationIcon = {
                     TextButton(onClick = onBack) {
-                        Text("Back")
+                        Text(
+                            stringResource(R.string.back)
+                        )
                     }
                 }
             )
@@ -76,7 +97,9 @@ fun SettingsScreen(
         ) {
             item {
                 Text(
-                    text = "Notifications",
+                    text = stringResource(
+                        R.string.notifications
+                    ),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -92,8 +115,12 @@ fun SettingsScreen(
                             Arrangement.spacedBy(16.dp)
                     ) {
                         SettingSwitchRow(
-                            title = "App notifications",
-                            description = "Receive general campus updates",
+                            title = stringResource(
+                                R.string.app_notifications
+                            ),
+                            description = stringResource(
+                                R.string.app_notifications_description
+                            ),
                             checked = notificationsEnabled,
                             onCheckedChange = {
                                 notificationsEnabled = it
@@ -107,8 +134,12 @@ fun SettingsScreen(
                         )
 
                         SettingSwitchRow(
-                            title = "Event reminders",
-                            description = "Receive reminders for upcoming events",
+                            title = stringResource(
+                                R.string.event_reminders
+                            ),
+                            description = stringResource(
+                                R.string.event_reminders_description
+                            ),
                             checked = eventRemindersEnabled,
                             onCheckedChange = {
                                 eventRemindersEnabled = it
@@ -126,7 +157,9 @@ fun SettingsScreen(
 
             item {
                 Text(
-                    text = "Language",
+                    text = stringResource(
+                        R.string.language
+                    ),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
@@ -139,40 +172,55 @@ fun SettingsScreen(
                     Column(
                         modifier = Modifier.padding(18.dp)
                     ) {
+                        val selectedLanguageName =
+                            if (selectedLanguageCode == "zu") {
+                                stringResource(
+                                    R.string.isizulu
+                                )
+                            } else {
+                                stringResource(
+                                    R.string.english
+                                )
+                            }
+
                         Text(
-                            text = "Selected language: $selectedLanguage",
+                            text = stringResource(
+                                R.string.selected_language,
+                                selectedLanguageName
+                            ),
                             fontWeight = FontWeight.SemiBold
                         )
 
-                        Spacer(modifier = Modifier.height(14.dp))
+                        Spacer(
+                            modifier = Modifier.height(14.dp)
+                        )
 
                         LanguageButton(
-                            language = "English",
-                            selectedLanguage = selectedLanguage,
+                            label = stringResource(
+                                R.string.english
+                            ),
+                            languageCode = "en",
+                            selectedLanguageCode =
+                                selectedLanguageCode,
                             onSelected = {
-                                selectedLanguage = it
+                                selectedLanguageCode = it
                                 settingsSaved = false
                             }
                         )
 
-                        Spacer(modifier = Modifier.height(8.dp))
-
-                        LanguageButton(
-                            language = "isiZulu",
-                            selectedLanguage = selectedLanguage,
-                            onSelected = {
-                                selectedLanguage = it
-                                settingsSaved = false
-                            }
+                        Spacer(
+                            modifier = Modifier.height(8.dp)
                         )
 
-                        Spacer(modifier = Modifier.height(8.dp))
-
                         LanguageButton(
-                            language = "Afrikaans",
-                            selectedLanguage = selectedLanguage,
+                            label = stringResource(
+                                R.string.isizulu
+                            ),
+                            languageCode = "zu",
+                            selectedLanguageCode =
+                                selectedLanguageCode,
                             onSelected = {
-                                selectedLanguage = it
+                                selectedLanguageCode = it
                                 settingsSaved = false
                             }
                         )
@@ -183,27 +231,48 @@ fun SettingsScreen(
             item {
                 Button(
                     onClick = {
+                        LocaleHelper.saveLanguage(
+                            context = context,
+                            languageCode =
+                                selectedLanguageCode
+                        )
+
                         settingsSaved = true
 
                         Log.i(
                             "CampusSettings",
                             "Settings saved: notifications=" +
-                                    "$notificationsEnabled, eventReminders=" +
-                                    "$eventRemindersEnabled, language=" +
-                                    selectedLanguage
+                                    "$notificationsEnabled, " +
+                                    "eventReminders=" +
+                                    "$eventRemindersEnabled, " +
+                                    "language=" +
+                                    selectedLanguageCode
                         )
+
+                        /*
+                         * Recreates the activity so Android loads the
+                         * correct strings.xml resource immediately.
+                         */
+                        context.findActivity()?.recreate()
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Save Settings")
+                    Text(
+                        stringResource(
+                            R.string.save_settings
+                        )
+                    )
                 }
             }
 
             if (settingsSaved) {
                 item {
                     Text(
-                        text = "Settings saved successfully.",
-                        color = MaterialTheme.colorScheme.primary,
+                        text = stringResource(
+                            R.string.settings_saved
+                        ),
+                        color =
+                            MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -222,7 +291,8 @@ private fun SettingSwitchRow(
     Row(
         modifier = Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement =
+            Arrangement.SpaceBetween
     ) {
         Column(
             modifier = Modifier.weight(1f)
@@ -235,7 +305,8 @@ private fun SettingSwitchRow(
             Text(
                 text = description,
                 style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color =
+                    MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
 
@@ -248,35 +319,52 @@ private fun SettingSwitchRow(
 
 @Composable
 private fun LanguageButton(
-    language: String,
-    selectedLanguage: String,
+    label: String,
+    languageCode: String,
+    selectedLanguageCode: String,
     onSelected: (String) -> Unit
 ) {
-    if (language == selectedLanguage) {
+    val isSelected =
+        languageCode == selectedLanguageCode
+
+    if (isSelected) {
         Button(
             onClick = {
                 Log.i(
                     "CampusSettings",
-                    "Language selected: $language"
+                    "Language selected: $languageCode"
                 )
-                onSelected(language)
+
+                onSelected(languageCode)
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(language)
+            Text(label)
         }
     } else {
         OutlinedButton(
             onClick = {
                 Log.i(
                     "CampusSettings",
-                    "Language selected: $language"
+                    "Language selected: $languageCode"
                 )
-                onSelected(language)
+
+                onSelected(languageCode)
             },
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(language)
+            Text(label)
         }
+    }
+}
+
+/**
+ * Finds the activity even when Compose provides a wrapped context.
+ */
+private tailrec fun Context.findActivity(): Activity? {
+    return when (this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.findActivity()
+        else -> null
     }
 }

@@ -17,24 +17,22 @@ data class Announcement(
 data class AcademicResource(
     val id: Int,
     val title: String,
-    val description: String,
-    val resourceUrl: String,
     val moduleCode: String,
-    val createdAt: String
+    val type: String,
+    val description: String
 )
 
 /**
- * Represents a campus event returned by the CampusConnect API.
+ * Represents a campus event.
  */
 data class CampusEvent(
     val id: Int,
     val title: String,
-    val description: String,
+    val date: String,
+    val time: String,
     val location: String,
-    val eventDate: String,
-    val createdBy: Int,
-    val createdAt: String,
-    val rsvpCount: Int
+    val description: String,
+    val isRegistered: Boolean = false
 )
 
 /**

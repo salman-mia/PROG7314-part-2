@@ -9,186 +9,20 @@ import com.example.campusconnect.model.ItemType
 import com.example.campusconnect.model.LeaderboardEntry
 import com.example.campusconnect.model.LostFoundItem
 import com.example.campusconnect.model.Society
-import com.example.campusconnect.network.ApiClient
-import com.example.campusconnect.network.AuthResponse
-import com.example.campusconnect.network.LoginRequest
-import com.example.campusconnect.network.RegisterRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /**
- * Repository for CampusConnect.
+ * Provides prototype data while the group's REST API is being developed.
  *
- * Authentication, Campus Events and Academic Resources
- * are connected to the ASP.NET REST API.
- *
- * Prototype data is temporarily retained for features that
- * have not yet been connected to backend endpoints.
+ * The prototype data will later be replaced with information obtained
+ * from the CampusConnect REST API.
  */
 class CampusRepository {
 
     companion object {
         private const val TAG = "CampusRepository"
     }
-
-    // ---------------------------------------------------------
-    // AUTHENTICATION - REAL BACKEND
-    // ---------------------------------------------------------
-
-    suspend fun login(
-        email: String,
-        password: String
-    ): Result<AuthResponse> {
-
-        return try {
-
-            val response = ApiClient.service.login(
-                LoginRequest(
-                    email = email.trim(),
-                    password = password
-                )
-            )
-
-            Log.i(
-                TAG,
-                "Login successful for ${response.email}"
-            )
-
-            Result.success(response)
-
-        } catch (exception: Exception) {
-
-            Log.e(
-                TAG,
-                "Login failed",
-                exception
-            )
-
-            Result.failure(exception)
-        }
-    }
-
-    suspend fun register(
-        fullName: String,
-        email: String,
-        password: String
-    ): Result<AuthResponse> {
-
-        return try {
-
-            val response = ApiClient.service.register(
-                RegisterRequest(
-                    fullName = fullName.trim(),
-                    email = email.trim(),
-                    password = password
-                )
-            )
-
-            Log.i(
-                TAG,
-                "Registration successful for ${response.email}"
-            )
-
-            Result.success(response)
-
-        } catch (exception: Exception) {
-
-            Log.e(
-                TAG,
-                "Registration failed",
-                exception
-            )
-
-            Result.failure(exception)
-        }
-    }
-
-    // ---------------------------------------------------------
-    // CAMPUS EVENTS - REAL BACKEND
-    // ---------------------------------------------------------
-
-    suspend fun getEventsFromApi(): Result<List<CampusEvent>> {
-
-        return try {
-
-            val events = ApiClient.service.getEvents()
-
-            Log.i(
-                TAG,
-                "Loaded ${events.size} events from API"
-            )
-
-            Result.success(events)
-
-        } catch (exception: Exception) {
-
-            Log.e(
-                TAG,
-                "Failed to load events from API",
-                exception
-            )
-
-            Result.failure(exception)
-        }
-    }
-
-    suspend fun createEventRsvp(
-        eventId: Int
-    ): Result<Unit> {
-
-        return try {
-
-            ApiClient.service.createRsvp(eventId)
-
-            Log.i(
-                TAG,
-                "RSVP created for eventId=$eventId"
-            )
-
-            Result.success(Unit)
-
-        } catch (exception: Exception) {
-
-            Log.e(
-                TAG,
-                "Failed to create RSVP for eventId=$eventId",
-                exception
-            )
-
-            Result.failure(exception)
-        }
-    }
-
-    suspend fun cancelEventRsvp(
-        eventId: Int
-    ): Result<Unit> {
-
-        return try {
-
-            ApiClient.service.cancelRsvp(eventId)
-
-            Log.i(
-                TAG,
-                "RSVP cancelled for eventId=$eventId"
-            )
-
-            Result.success(Unit)
-
-        } catch (exception: Exception) {
-
-            Log.e(
-                TAG,
-                "Failed to cancel RSVP for eventId=$eventId",
-                exception
-            )
-
-            Result.failure(exception)
-        }
-    }
-
-    // ---------------------------------------------------------
-    // PROTOTYPE ANNOUNCEMENTS
-    // ---------------------------------------------------------
 
     val announcements = listOf(
         Announcement(
@@ -214,38 +48,60 @@ class CampusRepository {
         )
     )
 
-    // ---------------------------------------------------------
-    // ACADEMIC RESOURCES - REAL BACKEND
-    // ---------------------------------------------------------
+    val resources = listOf(
+        AcademicResource(
+            id = 1,
+            title = "Kotlin fundamentals",
+            moduleCode = "PROG7314",
+            type = "Study guide",
+            description = "A short guide covering Kotlin and Android development."
+        ),
+        AcademicResource(
+            id = 2,
+            title = "Database revision",
+            moduleCode = "INSY7314",
+            type = "Notes",
+            description = "Revision notes covering relational database design."
+        ),
+        AcademicResource(
+            id = 3,
+            title = "Project management template",
+            moduleCode = "PMIC7312",
+            type = "Template",
+            description = "A planning template for student group projects."
+        )
+    )
 
-    suspend fun getResourcesFromApi(): Result<List<AcademicResource>> {
-
-        return try {
-
-            val resources = ApiClient.service.getResources()
-
-            Log.i(
-                TAG,
-                "Loaded ${resources.size} academic resources from API"
+    private val _events = MutableStateFlow(
+        listOf(
+            CampusEvent(
+                id = 1,
+                title = "Spring Career Fair",
+                date = "25 September 2026",
+                time = "10:00",
+                location = "Main Hall",
+                description = "Meet graduate employers and explore internship opportunities."
+            ),
+            CampusEvent(
+                id = 2,
+                title = "Android Study Jam",
+                date = "30 September 2026",
+                time = "14:00",
+                location = "Computer Lab 3",
+                description = "Build a small Android application with fellow students."
+            ),
+            CampusEvent(
+                id = 3,
+                title = "Campus Sports Day",
+                date = "4 October 2026",
+                time = "09:00",
+                location = "Sports Field",
+                description = "Participate in social sporting activities with other students."
             )
+        )
+    )
 
-            Result.success(resources)
-
-        } catch (exception: Exception) {
-
-            Log.e(
-                TAG,
-                "Failed to load academic resources from API",
-                exception
-            )
-
-            Result.failure(exception)
-        }
-    }
-
-    // ---------------------------------------------------------
-    // PROTOTYPE SOCIETIES
-    // ---------------------------------------------------------
+    val events = _events.asStateFlow()
 
     private val _societies = MutableStateFlow(
         listOf(
@@ -272,10 +128,6 @@ class CampusRepository {
 
     val societies = _societies.asStateFlow()
 
-    // ---------------------------------------------------------
-    // PROTOTYPE LOST AND FOUND
-    // ---------------------------------------------------------
-
     private val _lostFound = MutableStateFlow(
         listOf(
             LostFoundItem(
@@ -298,10 +150,6 @@ class CampusRepository {
     )
 
     val lostFound = _lostFound.asStateFlow()
-
-    // ---------------------------------------------------------
-    // PROTOTYPE CAMPUS SERVICES
-    // ---------------------------------------------------------
 
     val services = listOf(
         CampusService(
@@ -327,10 +175,6 @@ class CampusRepository {
         )
     )
 
-    // ---------------------------------------------------------
-    // PROTOTYPE LEADERBOARD
-    // ---------------------------------------------------------
-
     val leaderboard = listOf(
         LeaderboardEntry(
             position = 1,
@@ -349,24 +193,36 @@ class CampusRepository {
         )
     )
 
-    // ---------------------------------------------------------
-    // PROTOTYPE SOCIETY FUNCTIONS
-    // ---------------------------------------------------------
+    /**
+     * Registers or unregisters the student for an event.
+     */
+    fun toggleRsvp(eventId: Int) {
+        _events.value = _events.value.map { event ->
+            if (event.id == eventId) {
+                event.copy(
+                    isRegistered = !event.isRegistered
+                )
+            } else {
+                event
+            }
+        }
 
-    fun toggleSocietyMembership(
-        societyId: Int
-    ) {
+        Log.i(
+            TAG,
+            "RSVP state changed for eventId=$eventId"
+        )
+    }
 
+    /**
+     * Joins or leaves a selected society.
+     */
+    fun toggleSocietyMembership(societyId: Int) {
         _societies.value = _societies.value.map { society ->
-
             if (society.id == societyId) {
-
                 society.copy(
                     isJoined = !society.isJoined
                 )
-
             } else {
-
                 society
             }
         }
@@ -377,17 +233,15 @@ class CampusRepository {
         )
     }
 
-    // ---------------------------------------------------------
-    // PROTOTYPE LOST AND FOUND FUNCTIONS
-    // ---------------------------------------------------------
-
+    /**
+     * Creates a new Lost and Found listing.
+     */
     fun addLostFoundListing(
         title: String,
         description: String,
         location: String,
         type: ItemType
     ) {
-
         val nextId =
             (_lostFound.value.maxOfOrNull { it.id } ?: 0) + 1
 
@@ -400,8 +254,7 @@ class CampusRepository {
             owner = "Demo Student"
         )
 
-        _lostFound.value =
-            _lostFound.value + newListing
+        _lostFound.value = _lostFound.value + newListing
 
         Log.i(
             TAG,

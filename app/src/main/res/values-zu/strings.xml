@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CampusConnect</string>
+
+    <!-- General navigation -->
+    <string name="back">Emuva</string>
+    <string name="back_to_dashboard">Buyela Kudeshibhodi</string>
+    <string name="sign_in">Ngena</string>
+    <string name="sign_out">Phuma</string>
+    <string name="save_settings">Londoloza Izilungiselelo</string>
+
+    <!-- Login screen -->
+    <string name="campus_companion">Umsizi Wakho Wasekhempasini</string>
+    <string name="campus_account_prompt">Ngena nge-akhawunti yakho yasekhempasini</string>
+    <string name="campus_email">I-imeyili yasekhempasini</string>
+    <string name="campus_email_example">student@campus.ac.za</string>
+    <string name="password">Iphasiwedi</string>
+    <string name="login_incomplete">Sicela ufake i-imeyili nephasiwedi yakho.</string>
+    <string name="prototype_authentication">Ukuqinisekisa okuyisibonelo – i-SSO yasekhempasini izoxhunywa ohlelweni lwangemuva ngokuhamba kwesikhathi.</string>
+
+    <!-- Dashboard -->
+    <string name="welcome_student">Siyakwamukela, Mfundi</string>
+    <string name="dashboard_description">Hlala unolwazi, uxhumekile futhi ubambe iqhaza empilweni yasekhempasini.</string>
+    <string name="available_features">Izici ezitholakalayo</string>
+    <string name="campus_events">Imicimbi Yasekhempasini</string>
+    <string name="societies">Izinhlangano</string>
+    <string name="lost_and_found">Okulahlekile Nokutholakele</string>
+    <string name="announcements">Izimemezelo</string>
+    <string name="academic_resources">Izinsiza Zezemfundo</string>
+    <string name="campus_services">Izinsizakalo Zasekhempasini</string>
+    <string name="leaderboard">Ithebula Lamaphuzu</string>
+    <string name="settings">Izilungiselelo</string>
+
+    <!-- Events -->
+    <string name="search_events">Sesha imicimbi</string>
+    <string name="no_events_found">Ayikho imicimbi ehambisana nosesho lwakho.</string>
+    <string name="rsvp">Bhalisa</string>
+    <string name="cancel_rsvp">Khansela Ukubhalisa</string>
+
+    <!-- Societies -->
+    <string name="search_societies">Sesha izinhlangano</string>
+    <string name="no_societies_found">Azikho izinhlangano ezihambisana nosesho lwakho.</string>
+    <string name="join_society">Joyina Inhlangano</string>
+    <string name="leave_society">Shiya Inhlangano</string>
+
+    <!-- Lost and Found -->
+    <string name="report_item">Bika Into</string>
+    <string name="close_report_form">Vala Ifomu Lokubika</string>
+    <string name="new_item_report">Umbiko omusha wento</string>
+    <string name="lost">Ilahlekile</string>
+    <string name="found">Itholakele</string>
+    <string name="item_name">Igama lento</string>
+    <string name="location">Indawo</string>
+    <string name="description">Incazelo</string>
+    <string name="complete_all_fields">Sicela ugcwalise zonke izikhala.</string>
+    <string name="submit_report">Thumela Umbiko</string>
+    <string name="recent_listings">Imibiko yakamuva</string>
+    <string name="location_value">Indawo: %1$s</string>
+
+    <!-- Information screens -->
+    <string name="open_resource">Vula Insiza</string>
+    <string name="view_details">Buka Imininingwane</string>
+
+    <!-- Leaderboard -->
+    <string name="your_campus_points">Amaphuzu akho asekhempasini</string>
+    <string name="points_value">Amaphuzu angu-%1$d</string>
+    <string name="current_position">Indawo yamanje: %1$d</string>
+    <string name="top_students">Abafundi abahamba phambili</string>
+    <string name="leaderboard_explanation">Amaphuzu atholakala ngokuhambela imicimbi, ukujoyina izinhlangano nokubamba iqhaza emisebenzini yasekhempasini.</string>
+
+    <!-- Settings -->
+    <string name="notifications">Izaziso</string>
+    <string name="app_notifications">Izaziso zohlelo</string>
+    <string name="app_notifications_description">Thola izibuyekezo ezijwayelekile zasekhempasini</string>
+    <string name="event_reminders">Izikhumbuzi zemicimbi</string>
+    <string name="event_reminders_description">Thola izikhumbuzi zemicimbi ezayo</string>
+    <string name="language">Ulimi</string>
+    <string name="selected_language">Ulimi olukhethiwe: %1$s</string>
+    <string name="english">IsiNgisi</string>
+    <string name="isizulu">isiZulu</string>
+    <string name="settings_saved">Izilungiselelo zilondolozwe ngempumelelo.</string>
+
+    <!-- Placeholder -->
+    <string name="backend_ready">Lesi sici sesilungele ukuxhunywa ohlelweni lwangemuva.</string>
+    <string name="latest_announcement">Isimemezelo sakamuva</string>
+    <string name="welcome_announcement">Siyakwamukela ku-CampusConnect. Hlola uhlelo njalo ukuze uthole izibuyekezo zasekhempasini.</string>
+    <!-- Okuqukethwe yimicimbi yasekhempasini -->
+    <string name="event_welcome_title">Usuku Lokwamukela Ekhempasini</string>
+    <string name="event_welcome_date">25 Septhemba 2026 · 10:00</string>
+    <string name="event_welcome_location">Ihholo Elikhulu Lasekhempasini</string>
+    <string name="event_welcome_description">Hlangana nabanye abafundi futhi uthole izinsizakalo zasekhempasini.</string>
+
+    <string name="event_careers_title">Umbukiso Wemisebenzi Yobuchwepheshe</string>
+    <string name="event_careers_date">2 Okthoba 2026 · 09:00</string>
+    <string name="event_careers_location">Isikhungo Sokuqamba Okusha</string>
+    <string name="event_careers_description">Xhumana nezinkampani zobuchwepheshe futhi uhlole amathuba emisebenzi.</string>
+
+    <string name="event_sports_title">Usuku Lwezemidlalo Lwabafundi</string>
+    <string name="event_sports_date">10 Okthoba 2026 · 08:30</string>
+    <string name="event_sports_location">Inkundla Yezemidlalo Yasekhempasini</string>
+    <string name="event_sports_description">Bamba iqhaza emidlalweni yobungani futhi usekele ubuhlakani bakho.</string>
+    <!-- Okuqukethwe yizinhlangano -->
+    <string name="society_technology_name">Inhlangano Yobuchwepheshe</string>
+    <string name="society_technology_category">Ezemfundo</string>
+    <string name="society_technology_description">Imihlangano yokufunda ukubhala ikhodi, izingxoxo zobuchwepheshe namaphrojekthi abafundi.</string>
+
+    <string name="society_sports_name">Iqembu Lezemidlalo Lasekhempasini</string>
+    <string name="society_sports_category">Ezemidlalo</string>
+    <string name="society_sports_description">Imisebenzi yezemidlalo yabafundi bawo wonke amazinga amakhono.</string>
+
+    <string name="society_arts_name">Inhlangano Yobuciko Namasiko</string>
+    <string name="society_arts_category">Amasiko</string>
+    <string name="society_arts_description">Imicimbi yokudala egubha ubuciko, umculo namasiko abafundi.</string>
+
+    <string name="society_community_name">Ukusebenzela Umphakathi</string>
+    <string name="society_community_category">Ukuvolontiya</string>
+    <string name="society_community_description">Imisebenzi yokuvolontiya esekela imiphakathi eseduze.</string>
+    <!-- Imibiko yezinto ezilahlekile nezitholakele -->
+    <string name="black_backpack">Ubhaka omnyama</string>
+    <string name="main_library">Umtapo Wolwazi Omkhulu</string>
+    <string name="black_backpack_description">Ubhaka omnyama onesibambi sikakhiye esiluhlaza okwesibhakabhaka.</string>
+
+    <string name="student_access_card">Ikhadi lokungena lomfundi</string>
+    <string name="cafeteria">Indawo Yokudlela</string>
+    <string name="access_card_description">Ikhadi lokungena linikezwe ezokuphepha zasekhempasini.</string>
+
+    <string name="silver_water_bottle">Ibhodlela lamanzi elisiliva</string>
+    <string name="sports_centre">Isikhungo Sezemidlalo</string>
+    <string name="water_bottle_description">Ibhodlela elisiliva litholakale eduze kwezinkundla zangaphakathi.</string>
+
+    <!-- Izimemezelo -->
+    <string name="library_hours_title">Amahora omtapo wolwazi andisiwe</string>
+    <string name="library_hours_date">21 Septhemba 2026</string>
+    <string name="library_hours_description">Umtapo Wolwazi Omkhulu uzohlala uvuliwe kuze kube ngu-22:00 ngesikhathi sezivivinyo.</string>
+
+    <string name="network_maintenance_title">Ukulungiswa kwenethiwekhi yasekhempasini</string>
+    <string name="network_maintenance_date">24 Septhemba 2026</string>
+    <string name="network_maintenance_description">Kungase kube nokuphazamiseka okufushane phakathi kuka-18:00 no-20:00 ngesikhathi kulungiswa inethiwekhi.</string>
+
+    <string name="funding_title">Izicelo zoxhaso lwabafundi</string>
+    <string name="funding_date">Usuku lokuvala: 30 Septhemba 2026</string>
+    <string name="funding_description">Abafundi bakhunjuzwa ukuthi bathumele amadokhumenti oxhaso asele ngaphambi kosuku lokuvala.</string>
+
+    <!-- Izinsiza Zezemfundo -->
+    <string name="referencing_guide_title">Umhlahlandlela Wokubhekisela</string>
+    <string name="academic_writing">Ukubhala Kwezemfundo</string>
+    <string name="referencing_guide_description">Umhlahlandlela wokucaphuna, izinhlu zemithombo nokugwema ukukopela.</string>
+
+    <string name="programming_notes_title">Amanothi Okusekela Ukuhlela</string>
+    <string name="application_development">Ukuthuthukiswa Kwezinhlelo</string>
+    <string name="programming_notes_description">Amanothi okubuyekeza i-Kotlin nokuhlela okugxile ezintweni.</string>
+
+    <string name="study_skills_title">Ithuluzi Lamakhono Okufunda</string>
+    <string name="student_support">Ukwesekwa Kwabafundi</string>
+    <string name="study_skills_description">Umhlahlandlela wokuphatha isikhathi, izivivinyo nokubhala amanothi ngempumelelo.</string>
+
+    <!-- Izinsizakalo Zasekhempasini -->
+    <string name="campus_security_title">Ezokuphepha Zasekhempasini</string>
+    <string name="available_24_hours">Kutholakala amahora angu-24</string>
+    <string name="campus_security_description">Usizo oluphuthumayo, ukuphelezelwa kwezokuphepha nosizo lwezinto ezilahlekile.</string>
+
+    <string name="student_counselling_title">Ukwelulekwa Kwabafundi</string>
+    <string name="counselling_hours">NgoMsombuluko–NgoLwesihlanu, 08:00–16:30</string>
+    <string name="student_counselling_description">Ukwesekwa okuyimfihlo kwenhlalakahle nempilo yengqondo yabafundi.</string>
+
+    <string name="it_help_desk_title">Ideski Losizo Le-IT</string>
+    <string name="technology_support">Ukwesekwa Kwezobuchwepheshe</string>
+    <string name="it_help_desk_description">Usizo lwe-Wi-Fi yasekhempasini, ama-akhawunti abafundi nezinhlelo zokufunda.</string>
+
+    <!-- Ithebula Lamaphuzu -->
+    <string name="you">Wena</string>
+    <string name="leaderboard_entry">%1$d. %2$s</string>
+</resources>

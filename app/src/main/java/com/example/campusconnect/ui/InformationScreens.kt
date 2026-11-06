@@ -21,8 +21,10 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.campusconnect.R
 
 private data class InformationUiModel(
     val id: Int,
@@ -39,26 +41,46 @@ fun AnnouncementsScreen(
     val announcements = listOf(
         InformationUiModel(
             id = 1,
-            title = "Library hours extended",
-            subtitle = "21 September 2026",
-            description = "The Main Library will remain open until 22:00 during the examination period."
+            title = stringResource(
+                R.string.library_hours_title
+            ),
+            subtitle = stringResource(
+                R.string.library_hours_date
+            ),
+            description = stringResource(
+                R.string.library_hours_description
+            )
         ),
         InformationUiModel(
             id = 2,
-            title = "Campus network maintenance",
-            subtitle = "24 September 2026",
-            description = "Short interruptions may occur between 18:00 and 20:00 while maintenance is completed."
+            title = stringResource(
+                R.string.network_maintenance_title
+            ),
+            subtitle = stringResource(
+                R.string.network_maintenance_date
+            ),
+            description = stringResource(
+                R.string.network_maintenance_description
+            )
         ),
         InformationUiModel(
             id = 3,
-            title = "Student funding applications",
-            subtitle = "Closing date: 30 September 2026",
-            description = "Students are reminded to submit outstanding funding documents before the closing date."
+            title = stringResource(
+                R.string.funding_title
+            ),
+            subtitle = stringResource(
+                R.string.funding_date
+            ),
+            description = stringResource(
+                R.string.funding_description
+            )
         )
     )
 
     InformationListScreen(
-        screenTitle = "Announcements",
+        screenTitle = stringResource(
+            R.string.announcements
+        ),
         logTag = "CampusAnnouncements",
         information = announcements,
         onBack = onBack
@@ -69,32 +91,56 @@ fun AnnouncementsScreen(
 fun AcademicResourcesScreen(
     onBack: () -> Unit
 ) {
+    val actionLabel = stringResource(
+        R.string.open_resource
+    )
+
     val resources = listOf(
         InformationUiModel(
             id = 1,
-            title = "Referencing Guide",
-            subtitle = "Academic Writing",
-            description = "A guide to citations, reference lists and avoiding plagiarism.",
-            actionLabel = "Open Resource"
+            title = stringResource(
+                R.string.referencing_guide_title
+            ),
+            subtitle = stringResource(
+                R.string.academic_writing
+            ),
+            description = stringResource(
+                R.string.referencing_guide_description
+            ),
+            actionLabel = actionLabel
         ),
         InformationUiModel(
             id = 2,
-            title = "Programming Support Notes",
-            subtitle = "Application Development",
-            description = "Revision notes covering Kotlin and object-oriented programming.",
-            actionLabel = "Open Resource"
+            title = stringResource(
+                R.string.programming_notes_title
+            ),
+            subtitle = stringResource(
+                R.string.application_development
+            ),
+            description = stringResource(
+                R.string.programming_notes_description
+            ),
+            actionLabel = actionLabel
         ),
         InformationUiModel(
             id = 3,
-            title = "Study Skills Toolkit",
-            subtitle = "Student Support",
-            description = "Time-management, examination and effective note-taking guidance.",
-            actionLabel = "Open Resource"
+            title = stringResource(
+                R.string.study_skills_title
+            ),
+            subtitle = stringResource(
+                R.string.student_support
+            ),
+            description = stringResource(
+                R.string.study_skills_description
+            ),
+            actionLabel = actionLabel
         )
     )
 
     InformationListScreen(
-        screenTitle = "Academic Resources",
+        screenTitle = stringResource(
+            R.string.academic_resources
+        ),
         logTag = "CampusResources",
         information = resources,
         onBack = onBack
@@ -105,32 +151,56 @@ fun AcademicResourcesScreen(
 fun CampusServicesScreen(
     onBack: () -> Unit
 ) {
+    val actionLabel = stringResource(
+        R.string.view_details
+    )
+
     val services = listOf(
         InformationUiModel(
             id = 1,
-            title = "Campus Security",
-            subtitle = "Available 24 hours",
-            description = "Emergency assistance, safety escorts and lost-property support.",
-            actionLabel = "View Details"
+            title = stringResource(
+                R.string.campus_security_title
+            ),
+            subtitle = stringResource(
+                R.string.available_24_hours
+            ),
+            description = stringResource(
+                R.string.campus_security_description
+            ),
+            actionLabel = actionLabel
         ),
         InformationUiModel(
             id = 2,
-            title = "Student Counselling",
-            subtitle = "Monday–Friday, 08:00–16:30",
-            description = "Confidential wellness and mental-health support for students.",
-            actionLabel = "View Details"
+            title = stringResource(
+                R.string.student_counselling_title
+            ),
+            subtitle = stringResource(
+                R.string.counselling_hours
+            ),
+            description = stringResource(
+                R.string.student_counselling_description
+            ),
+            actionLabel = actionLabel
         ),
         InformationUiModel(
             id = 3,
-            title = "IT Help Desk",
-            subtitle = "Technology Support",
-            description = "Support for campus Wi-Fi, student accounts and learning systems.",
-            actionLabel = "View Details"
+            title = stringResource(
+                R.string.it_help_desk_title
+            ),
+            subtitle = stringResource(
+                R.string.technology_support
+            ),
+            description = stringResource(
+                R.string.it_help_desk_description
+            ),
+            actionLabel = actionLabel
         )
     )
 
     InformationListScreen(
-        screenTitle = "Campus Services",
+        screenTitle = stringResource(
+            R.string.campus_services
+        ),
         logTag = "CampusServices",
         information = services,
         onBack = onBack
@@ -148,18 +218,23 @@ private fun InformationListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(screenTitle) },
+                title = {
+                    Text(screenTitle)
+                },
                 navigationIcon = {
                     TextButton(
                         onClick = {
                             Log.i(
                                 "CampusNavigation",
-                                "Returning from $screenTitle to dashboard"
+                                "Returning from information screen"
                             )
+
                             onBack()
                         }
                     ) {
-                        Text("Back")
+                        Text(
+                            stringResource(R.string.back)
+                        )
                     }
                 }
             )
@@ -170,7 +245,8 @@ private fun InformationListScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement =
+                Arrangement.spacedBy(12.dp)
         ) {
             items(
                 items = information,
@@ -184,38 +260,54 @@ private fun InformationListScreen(
                     ) {
                         Text(
                             text = item.title,
-                            style = MaterialTheme.typography.titleLarge,
+                            style =
+                                MaterialTheme.typography
+                                    .titleLarge,
                             fontWeight = FontWeight.Bold
                         )
 
-                        Spacer(modifier = Modifier.height(4.dp))
+                        Spacer(
+                            modifier = Modifier.height(4.dp)
+                        )
 
                         Text(
                             text = item.subtitle,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.SemiBold
+                            color =
+                                MaterialTheme.colorScheme
+                                    .primary,
+                            fontWeight =
+                                FontWeight.SemiBold
                         )
 
-                        Spacer(modifier = Modifier.height(10.dp))
+                        Spacer(
+                            modifier = Modifier.height(10.dp)
+                        )
 
                         Text(
                             text = item.description,
-                            style = MaterialTheme.typography.bodyLarge
+                            style =
+                                MaterialTheme.typography
+                                    .bodyLarge
                         )
 
-                        if (item.actionLabel != null) {
-                            Spacer(modifier = Modifier.height(16.dp))
+                        item.actionLabel?.let { label ->
+                            Spacer(
+                                modifier =
+                                    Modifier.height(16.dp)
+                            )
 
                             Button(
                                 onClick = {
                                     Log.i(
                                         logTag,
-                                        "${item.actionLabel} selected: ${item.title}"
+                                        "$label selected: " +
+                                                item.title
                                     )
                                 },
-                                modifier = Modifier.fillMaxWidth()
+                                modifier =
+                                    Modifier.fillMaxWidth()
                             ) {
-                                Text(item.actionLabel)
+                                Text(label)
                             }
                         }
                     }

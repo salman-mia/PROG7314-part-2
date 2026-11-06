@@ -1,100 +1,146 @@
 package com.example.campusconnect
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.ui.Modifier
-import com.example.campusconnect.network.ApiClient
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
+import com.example.campusconnect.notifications.CampusFirebaseMessagingService
 import com.example.campusconnect.ui.CampusConnectApp
 import com.example.campusconnect.ui.theme.CampusConnectTheme
+import com.google.firebase.messaging.FirebaseMessaging
 
-/**
- * Main entry point for the CampusConnect Android application.
- *
- * Lifecycle logging is included to demonstrate application state
- * transitions for the Part 2 technical requirements.
- */
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
+
+    private val notificationPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { permissionGranted ->
+            if (permissionGranted) {
+                Log.i(
+                    "CampusNotifications",
+                    "Notification permission granted"
+                )
+            } else {
+                Log.w(
+                    "CampusNotifications",
+                    "Notification permission denied"
+                )
+            }
+        }
+
+    override fun attachBaseContext(newBase: Context) {
+        val localizedContext =
+            LocaleHelper.wrapContext(newBase)
+
+        super.attachBaseContext(localizedContext)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.i(
-            LOG_TAG,
-            "onCreate: CampusConnect activity created"
-        )
-
-        // Initialise the API client so it can access the saved JWT token.
-        ApiClient.initialize(applicationContext)
-
         enableEdgeToEdge()
+
+        requestNotificationPermission()
+        registerForFirebaseNotifications()
 
         setContent {
             CampusConnectTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    CampusConnectApp()
-                }
+                CampusConnectApp()
             }
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.i(
-            LOG_TAG,
-            "onStart: CampusConnect is visible"
-        )
+    private fun requestNotificationPermission() {
+        if (
+            Build.VERSION.SDK_INT >=
+            Build.VERSION_CODES.TIRAMISU
+        ) {
+            val permissionStatus =
+                ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+
+            if (
+                permissionStatus !=
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                notificationPermissionLauncher.launch(
+                    Manifest.permission.POST_NOTIFICATIONS
+                )
+            } else {
+                Log.i(
+                    "CampusNotifications",
+                    "Notification permission already granted"
+                )
+            }
+        }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.i(
-            LOG_TAG,
-            "onResume: CampusConnect is active"
-        )
-    }
+    private fun registerForFirebaseNotifications() {
+        FirebaseMessaging
+            .getInstance()
+            .token
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.e(
+                        "CampusNotifications",
+                        "Could not retrieve Firebase token",
+                        task.exception
+                    )
 
-    override fun onPause() {
-        Log.i(
-            LOG_TAG,
-            "onPause: CampusConnect is leaving the foreground"
-        )
-        super.onPause()
-    }
+                    return@addOnCompleteListener
+                }
 
-    override fun onStop() {
-        Log.i(
-            LOG_TAG,
-            "onStop: CampusConnect is no longer visible"
-        )
-        super.onStop()
-    }
+                val token = task.result
 
-    override fun onRestart() {
-        super.onRestart()
-        Log.i(
-            LOG_TAG,
-            "onRestart: CampusConnect is restarting"
-        )
-    }
+                getSharedPreferences(
+                    CampusFirebaseMessagingService
+                        .TOKEN_PREFERENCES,
+                    MODE_PRIVATE
+                )
+                    .edit()
+                    .putString(
+                        CampusFirebaseMessagingService
+                            .TOKEN_KEY,
+                        token
+                    )
+                    .apply()
 
-    override fun onDestroy() {
-        Log.i(
-            LOG_TAG,
-            "onDestroy: CampusConnect activity destroyed"
-        )
-        super.onDestroy()
+                Log.i(
+                    "CampusNotifications",
+                    "Firebase registration token: $token"
+                )
+            }
+
+        FirebaseMessaging
+            .getInstance()
+            .subscribeToTopic(TOPIC_CAMPUS_UPDATES)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Log.i(
+                        "CampusNotifications",
+                        "Subscribed to campus updates topic"
+                    )
+                } else {
+                    Log.e(
+                        "CampusNotifications",
+                        "Campus topic subscription failed",
+                        task.exception
+                    )
+                }
+            }
     }
 
     companion object {
-        private const val LOG_TAG = "CampusLifecycle"
+        private const val TOPIC_CAMPUS_UPDATES =
+            "campus_updates"
     }
 }
