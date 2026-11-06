@@ -1,67 +1,49 @@
-name: CampusConnect CI
+name: CampusConnect Android CI
 
 on:
   push:
     branches:
       - main
+      - master
+      - develop
+
   pull_request:
     branches:
       - main
+      - master
+      - develop
+
+  workflow_dispatch:
 
 jobs:
-
-  # =========================================================
-  # ANDROID FRONTEND
-  # =========================================================
-  android-build-and-test:
-    name: Android Build and Test
+  build-and-test:
+    name: Build and Test CampusConnect
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up Java 17
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: "17"
           cache: gradle
 
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
+      - name: Grant Gradle permission
+        run: chmod +x gradlew
 
-      - name: Make Gradle executable
-        run: chmod +x ./gradlew
+      - name: Run unit tests
+        run: ./gradlew testDebugUnitTest
 
-      - name: Run Android unit tests
-        run: ./gradlew test
-
-      - name: Build Android application
+      - name: Build debug APK
         run: ./gradlew assembleDebug
 
-
-  # =========================================================
-  # ASP.NET CORE BACKEND
-  # =========================================================
-  backend-build-and-test:
-    name: Backend Build and Test
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v4
+      - name: Upload debug APK
+        uses: actions/upload-artifact@v4
         with:
-          dotnet-version: '8.0.x'
-
-      - name: Restore backend dependencies
-        run: dotnet restore CampusConnect.Backend/CampusConnect.sln
-
-      - name: Build backend
-        run: dotnet build CampusConnect.Backend/CampusConnect.sln --configuration Release --no-restore
-
-      - name: Run backend unit tests
-        run: dotnet test CampusConnect.Backend/CampusConnect.sln --configuration Release --no-build --verbosity normal
+          name: CampusConnect-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+          retention-days: 14

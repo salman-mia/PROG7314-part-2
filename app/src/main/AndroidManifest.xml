@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Allows CampusConnect to communicate with the REST API -->
-    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Allows CampusConnect to communicate with REST APIs and Firebase. -->
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+
+    <!-- Allows the app to monitor connectivity for offline synchronisation. -->
+    <uses-permission
+        android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Required for notifications on Android 13 and newer. -->
+    <uses-permission
+        android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -15,8 +25,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CampusConnect"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="31">
+        tools:targetApi="36">
 
         <activity
             android:name=".MainActivity"
@@ -26,11 +35,36 @@
             android:windowSoftInputMode="adjustResize">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action
+                    android:name="android.intent.action.MAIN" />
+
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
         </activity>
+
+        <!-- Receives Firebase Cloud Messaging notifications and data. -->
+        <service
+            android:name=".notifications.CampusFirebaseMessagingService"
+            android:exported="false">
+
+            <intent-filter>
+                <action
+                    android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+
+        </service>
+
+        <!-- Default icon used for Firebase notifications. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+
+        <!-- Must match the channel created by the messaging service. -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="campus_updates_channel" />
 
     </application>
 

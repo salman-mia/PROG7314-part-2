@@ -23,17 +23,20 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.campusconnect.R
 
 private data class LeaderboardUiModel(
     val position: Int,
     val studentName: String,
-    val points: Int
+    val points: Int,
+    val isCurrentUser: Boolean = false
 )
 
 /**
- * Displays student participation points and leaderboard rankings.
+ * Displays translated participation points and rankings.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +47,12 @@ fun LeaderboardScreen(
         LeaderboardUiModel(1, "Naledi M.", 1250),
         LeaderboardUiModel(2, "Thabo K.", 1100),
         LeaderboardUiModel(3, "Ayesha P.", 980),
-        LeaderboardUiModel(4, "You", 850),
+        LeaderboardUiModel(
+            position = 4,
+            studentName = stringResource(R.string.you),
+            points = 850,
+            isCurrentUser = true
+        ),
         LeaderboardUiModel(5, "Liam S.", 790)
     )
 
@@ -58,10 +66,18 @@ fun LeaderboardScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Leaderboard") },
+                title = {
+                    Text(
+                        stringResource(
+                            R.string.leaderboard
+                        )
+                    )
+                },
                 navigationIcon = {
                     TextButton(onClick = onBack) {
-                        Text("Back")
+                        Text(
+                            stringResource(R.string.back)
+                        )
                     }
                 }
             )
@@ -72,41 +88,62 @@ fun LeaderboardScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement =
+                Arrangement.spacedBy(12.dp)
         ) {
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
                         containerColor =
-                            MaterialTheme.colorScheme.primaryContainer
+                            MaterialTheme.colorScheme
+                                .primaryContainer
                     )
                 ) {
                     Column(
                         modifier = Modifier.padding(20.dp)
                     ) {
                         Text(
-                            text = "Your campus points",
-                            style = MaterialTheme.typography.titleMedium
+                            text = stringResource(
+                                R.string.your_campus_points
+                            ),
+                            style =
+                                MaterialTheme.typography
+                                    .titleMedium
                         )
 
-                        Spacer(modifier = Modifier.height(6.dp))
+                        Spacer(
+                            modifier = Modifier.height(6.dp)
+                        )
 
                         Text(
-                            text = "850 points",
-                            style = MaterialTheme.typography.headlineMedium,
+                            text = stringResource(
+                                R.string.points_value,
+                                850
+                            ),
+                            style =
+                                MaterialTheme.typography
+                                    .headlineMedium,
                             fontWeight = FontWeight.Bold
                         )
 
-                        Text("Current position: 4")
+                        Text(
+                            stringResource(
+                                R.string.current_position,
+                                4
+                            )
+                        )
                     }
                 }
             }
 
             item {
                 Text(
-                    text = "Top students",
-                    style = MaterialTheme.typography.titleLarge,
+                    text = stringResource(
+                        R.string.top_students
+                    ),
+                    style =
+                        MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
             }
@@ -117,14 +154,16 @@ fun LeaderboardScreen(
             ) { leader ->
                 Card(
                     modifier = Modifier.fillMaxWidth(),
-                    colors = if (leader.studentName == "You") {
-                        CardDefaults.cardColors(
-                            containerColor =
-                                MaterialTheme.colorScheme.secondaryContainer
-                        )
-                    } else {
-                        CardDefaults.cardColors()
-                    }
+                    colors =
+                        if (leader.isCurrentUser) {
+                            CardDefaults.cardColors(
+                                containerColor =
+                                    MaterialTheme.colorScheme
+                                        .secondaryContainer
+                            )
+                        } else {
+                            CardDefaults.cardColors()
+                        }
                 ) {
                     Row(
                         modifier = Modifier
@@ -134,17 +173,26 @@ fun LeaderboardScreen(
                             Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = "${leader.position}. ${leader.studentName}",
-                            fontWeight = if (leader.studentName == "You") {
-                                FontWeight.Bold
-                            } else {
-                                FontWeight.Normal
-                            }
+                            text = stringResource(
+                                R.string.leaderboard_entry,
+                                leader.position,
+                                leader.studentName
+                            ),
+                            fontWeight =
+                                if (leader.isCurrentUser) {
+                                    FontWeight.Bold
+                                } else {
+                                    FontWeight.Normal
+                                }
                         )
 
                         Text(
-                            text = "${leader.points} points",
-                            fontWeight = FontWeight.SemiBold
+                            text = stringResource(
+                                R.string.points_value,
+                                leader.points
+                            ),
+                            fontWeight =
+                                FontWeight.SemiBold
                         )
                     }
                 }
@@ -152,9 +200,14 @@ fun LeaderboardScreen(
 
             item {
                 Text(
-                    text = "Points are earned by attending events, joining societies and participating in campus activities.",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    text = stringResource(
+                        R.string.leaderboard_explanation
+                    ),
+                    style =
+                        MaterialTheme.typography.bodyMedium,
+                    color =
+                        MaterialTheme.colorScheme
+                            .onSurfaceVariant
                 )
             }
         }

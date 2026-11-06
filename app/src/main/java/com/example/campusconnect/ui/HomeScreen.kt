@@ -23,11 +23,26 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.campusconnect.R
+
+/**
+ * Stores the translated label displayed to the user and the fixed
+ * navigation key used internally by CampusConnectApp.
+ */
+private data class DashboardFeature(
+    val routeKey: String,
+    val displayLabel: String
+)
 
 /**
  * Main dashboard displayed after the user signs in.
+ *
+ * All visible wording supports English and isiZulu. The route keys
+ * remain in English so that changing language does not break
+ * application navigation.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,14 +51,54 @@ fun HomeScreen(
     onSignOut: () -> Unit
 ) {
     val features = listOf(
-        "Campus Events",
-        "Societies",
-        "Lost and Found",
-        "Announcements",
-        "Academic Resources",
-        "Campus Services",
-        "Leaderboard",
-        "Settings"
+        DashboardFeature(
+            routeKey = "Campus Events",
+            displayLabel = stringResource(
+                R.string.campus_events
+            )
+        ),
+        DashboardFeature(
+            routeKey = "Societies",
+            displayLabel = stringResource(
+                R.string.societies
+            )
+        ),
+        DashboardFeature(
+            routeKey = "Lost and Found",
+            displayLabel = stringResource(
+                R.string.lost_and_found
+            )
+        ),
+        DashboardFeature(
+            routeKey = "Announcements",
+            displayLabel = stringResource(
+                R.string.announcements
+            )
+        ),
+        DashboardFeature(
+            routeKey = "Academic Resources",
+            displayLabel = stringResource(
+                R.string.academic_resources
+            )
+        ),
+        DashboardFeature(
+            routeKey = "Campus Services",
+            displayLabel = stringResource(
+                R.string.campus_services
+            )
+        ),
+        DashboardFeature(
+            routeKey = "Leaderboard",
+            displayLabel = stringResource(
+                R.string.leaderboard
+            )
+        ),
+        DashboardFeature(
+            routeKey = "Settings",
+            displayLabel = stringResource(
+                R.string.settings
+            )
+        )
     )
 
     Scaffold(
@@ -51,7 +106,9 @@ fun HomeScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = "CampusConnect",
+                        text = stringResource(
+                            R.string.app_name
+                        ),
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -63,83 +120,125 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement =
+                Arrangement.spacedBy(12.dp)
         ) {
             item {
                 Text(
-                    text = "Welcome back!",
-                    style = MaterialTheme.typography.headlineMedium,
+                    text = stringResource(
+                        R.string.welcome_student
+                    ),
+                    style =
+                        MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = "Stay connected with everything happening on campus.",
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                Spacer(
+                    modifier = Modifier.height(4.dp)
                 )
 
-                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = stringResource(
+                        R.string.dashboard_description
+                    ),
+                    style = MaterialTheme.typography.bodyLarge,
+                    color =
+                        MaterialTheme.colorScheme.onSurfaceVariant
+                )
+
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
             }
 
             item {
                 Card(
                     modifier = Modifier.fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                        containerColor =
+                            MaterialTheme.colorScheme
+                                .primaryContainer
                     )
                 ) {
-                    Column(modifier = Modifier.padding(18.dp)) {
+                    Column(
+                        modifier = Modifier.padding(18.dp)
+                    ) {
                         Text(
-                            text = "Latest announcement",
-                            style = MaterialTheme.typography.titleMedium,
+                            text = stringResource(
+                                R.string.latest_announcement
+                            ),
+                            style =
+                                MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold
                         )
 
-                        Spacer(modifier = Modifier.height(6.dp))
+                        Spacer(
+                            modifier = Modifier.height(6.dp)
+                        )
 
                         Text(
-                            text = "Welcome to CampusConnect. Check the application regularly for campus updates."
+                            text = stringResource(
+                                R.string.welcome_announcement
+                            )
                         )
                     }
                 }
             }
 
             item {
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(
+                    modifier = Modifier.height(4.dp)
+                )
 
                 Text(
-                    text = "Quick access",
-                    style = MaterialTheme.typography.titleLarge,
+                    text = stringResource(
+                        R.string.available_features
+                    ),
+                    style =
+                        MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
             }
 
-            items(features) { feature ->
+            items(
+                items = features,
+                key = { feature -> feature.routeKey }
+            ) { feature ->
                 FeatureCard(
-                    title = feature,
+                    title = feature.displayLabel,
                     onClick = {
                         Log.i(
                             "CampusNavigation",
-                            "Dashboard feature selected: $feature"
+                            "Dashboard feature selected: " +
+                                    feature.routeKey
                         )
-                        onFeatureSelected(feature)
+
+                        onFeatureSelected(
+                            feature.routeKey
+                        )
                     }
                 )
             }
 
             item {
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
 
                 Button(
                     onClick = {
-                        Log.i("CampusLogin", "User selected sign out")
+                        Log.i(
+                            "CampusLogin",
+                            "User selected sign out"
+                        )
+
                         onSignOut()
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Sign Out")
+                    Text(
+                        stringResource(R.string.sign_out)
+                    )
                 }
             }
         }
@@ -163,7 +262,8 @@ private fun FeatureCard(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium,
+                style =
+                    MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold
             )
         }

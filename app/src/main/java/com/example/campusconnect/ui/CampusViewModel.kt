@@ -55,18 +55,17 @@ class CampusViewModel(
     }
 
     /**
-     * Updates the application sign-in state.
+     * Signs in using prototype authentication.
      *
-     * Authentication itself is performed through the
-     * CampusConnect REST API.
+     * This method will later call the institution-approved SSO
+     * provider after the group supplies the authentication details.
      */
     fun signIn() {
-
         _isSignedIn.value = true
 
         Log.i(
             TAG,
-            "User sign-in state updated successfully"
+            "Prototype SSO sign-in completed successfully"
         )
     }
 
@@ -74,7 +73,6 @@ class CampusViewModel(
      * Ends the current application session.
      */
     fun signOut() {
-
         _isSignedIn.value = false
 
         Log.i(
@@ -86,10 +84,7 @@ class CampusViewModel(
     /**
      * Records application navigation for Logcat evidence.
      */
-    fun recordNavigation(
-        destination: String
-    ) {
-
+    fun recordNavigation(destination: String) {
         Log.d(
             TAG,
             "Navigation state changed to $destination"
@@ -97,24 +92,21 @@ class CampusViewModel(
     }
 
     /**
-     * Joins or leaves a student society.
-     *
-     * Society functionality is still using prototype data.
+     * Registers or unregisters the user for an event.
      */
-    fun toggleSocietyMembership(
-        societyId: Int
-    ) {
+    fun toggleRsvp(eventId: Int) {
+        campusRepository.toggleRsvp(eventId)
+    }
 
-        campusRepository.toggleSocietyMembership(
-            societyId
-        )
+    /**
+     * Joins or leaves a student society.
+     */
+    fun toggleSocietyMembership(societyId: Int) {
+        campusRepository.toggleSocietyMembership(societyId)
     }
 
     /**
      * Creates a new Lost and Found listing.
-     *
-     * Lost and Found will be connected to the REST API
-     * in a later integration step.
      */
     fun addLostFoundListing(
         title: String,
@@ -122,7 +114,6 @@ class CampusViewModel(
         location: String,
         type: ItemType
     ) {
-
         campusRepository.addLostFoundListing(
             title = title,
             description = description,
@@ -134,47 +125,31 @@ class CampusViewModel(
     /**
      * Saves the general notification preference.
      */
-    fun setNotificationsEnabled(
-        enabled: Boolean
-    ) {
-
+    fun setNotificationsEnabled(enabled: Boolean) {
         viewModelScope.launch {
-
-            settingsRepository
-                .setNotificationsEnabled(enabled)
+            settingsRepository.setNotificationsEnabled(enabled)
         }
     }
 
     /**
      * Saves the event notification preference.
      */
-    fun setEventNotificationsEnabled(
-        enabled: Boolean
-    ) {
-
+    fun setEventNotificationsEnabled(enabled: Boolean) {
         viewModelScope.launch {
-
-            settingsRepository
-                .setEventNotificationsEnabled(enabled)
+            settingsRepository.setEventNotificationsEnabled(enabled)
         }
     }
 
     /**
      * Saves the selected interface language.
      */
-    fun setLanguage(
-        language: String
-    ) {
-
+    fun setLanguage(language: String) {
         viewModelScope.launch {
-
-            settingsRepository
-                .setLanguage(language)
+            settingsRepository.setLanguage(language)
         }
     }
 
     override fun onCleared() {
-
         Log.i(
             TAG,
             "CampusViewModel cleared from memory"
@@ -195,7 +170,6 @@ class CampusViewModel(
         override fun <T : ViewModel> create(
             modelClass: Class<T>
         ): T {
-
             return CampusViewModel(
                 campusRepository = campusRepository,
                 settingsRepository = settingsRepository

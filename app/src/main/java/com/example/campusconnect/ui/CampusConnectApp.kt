@@ -16,6 +16,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.example.campusconnect.R
 
 /**
  * Root composable that controls authentication and screen navigation.
@@ -193,7 +195,9 @@ private fun FeatureScreen(
         )
 
         Text(
-            text = "This feature is ready to be connected to the backend.",
+            text = stringResource(
+                R.string.backend_ready
+            ),
             modifier = Modifier.padding(
                 top = 12.dp,
                 bottom = 24.dp
@@ -201,7 +205,11 @@ private fun FeatureScreen(
         )
 
         Button(onClick = onBack) {
-            Text("Back to Dashboard")
+            Text(
+                stringResource(
+                    R.string.back_to_dashboard
+                )
+            )
         }
     }
 }

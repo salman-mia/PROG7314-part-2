@@ -1,3 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CampusConnect</string>
+
+    <!-- General navigation -->
+    <string name="back">Back</string>
+    <string name="back_to_dashboard">Back to Dashboard</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="save_settings">Save Settings</string>
+
+    <!-- Login screen -->
+    <string name="campus_companion">Your Student Campus Companion</string>
+    <string name="campus_account_prompt">Sign in using your campus account</string>
+    <string name="campus_email">Campus email</string>
+    <string name="campus_email_example">student@campus.ac.za</string>
+    <string name="password">Password</string>
+    <string name="login_incomplete">Please enter both your campus email and password.</string>
+    <string name="prototype_authentication">Prototype authentication – campus SSO will be connected to the backend later.</string>
+
+    <!-- Dashboard -->
+    <string name="welcome_student">Welcome, Student</string>
+    <string name="dashboard_description">Stay informed, connected and involved in campus life.</string>
+    <string name="available_features">Available features</string>
+    <string name="campus_events">Campus Events</string>
+    <string name="societies">Societies</string>
+    <string name="lost_and_found">Lost and Found</string>
+    <string name="announcements">Announcements</string>
+    <string name="academic_resources">Academic Resources</string>
+    <string name="campus_services">Campus Services</string>
+    <string name="leaderboard">Leaderboard</string>
+    <string name="settings">Settings</string>
+
+    <!-- Events -->
+    <string name="search_events">Search events</string>
+    <string name="no_events_found">No events match your search.</string>
+    <string name="rsvp">RSVP</string>
+    <string name="cancel_rsvp">Cancel RSVP</string>
+
+    <!-- Societies -->
+    <string name="search_societies">Search societies</string>
+    <string name="no_societies_found">No societies match your search.</string>
+    <string name="join_society">Join Society</string>
+    <string name="leave_society">Leave Society</string>
+
+    <!-- Lost and Found -->
+    <string name="report_item">Report an Item</string>
+    <string name="close_report_form">Close Report Form</string>
+    <string name="new_item_report">New item report</string>
+    <string name="lost">Lost</string>
+    <string name="found">Found</string>
+    <string name="item_name">Item name</string>
+    <string name="location">Location</string>
+    <string name="description">Description</string>
+    <string name="complete_all_fields">Please complete all fields.</string>
+    <string name="submit_report">Submit Report</string>
+    <string name="recent_listings">Recent listings</string>
+    <string name="location_value">Location: %1$s</string>
+
+    <!-- Information screens -->
+    <string name="open_resource">Open Resource</string>
+    <string name="view_details">View Details</string>
+
+    <!-- Leaderboard -->
+    <string name="your_campus_points">Your campus points</string>
+    <string name="points_value">%1$d points</string>
+    <string name="current_position">Current position: %1$d</string>
+    <string name="top_students">Top students</string>
+    <string name="leaderboard_explanation">Points are earned by attending events, joining societies and participating in campus activities.</string>
+
+    <!-- Settings -->
+    <string name="notifications">Notifications</string>
+    <string name="app_notifications">App notifications</string>
+    <string name="app_notifications_description">Receive general campus updates</string>
+    <string name="event_reminders">Event reminders</string>
+    <string name="event_reminders_description">Receive reminders for upcoming events</string>
+    <string name="language">Language</string>
+    <string name="selected_language">Selected language: %1$s</string>
+    <string name="english">English</string>
+    <string name="isizulu">isiZulu</string>
+    <string name="settings_saved">Settings saved successfully.</string>
+
+    <!-- Placeholder -->
+    <string name="backend_ready">This feature is ready to be connected to the backend.</string>
+    <string name="latest_announcement">Latest announcement</string>
+    <string name="welcome_announcement">Welcome to CampusConnect. Check the application regularly for campus updates.</string>
+    <!-- Campus Events sample content -->
+    <string name="event_welcome_title">Campus Welcome Day</string>
+    <string name="event_welcome_date">25 September 2026 · 10:00</string>
+    <string name="event_welcome_location">Main Campus Hall</string>
+    <string name="event_welcome_description">Meet fellow students and discover campus services.</string>
+
+    <string name="event_careers_title">Technology Careers Fair</string>
+    <string name="event_careers_date">2 October 2026 · 09:00</string>
+    <string name="event_careers_location">Innovation Centre</string>
+    <string name="event_careers_description">Connect with technology companies and explore career opportunities.</string>
+
+    <string name="event_sports_title">Student Sports Day</string>
+    <string name="event_sports_date">10 October 2026 · 08:30</string>
+    <string name="event_sports_location">Campus Sports Field</string>
+    <string name="event_sports_description">Take part in friendly sporting activities and support your faculty.</string>
+    <!-- Societies sample content -->
+    <string name="society_technology_name">Technology Society</string>
+    <string name="society_technology_category">Academic</string>
+    <string name="society_technology_description">Coding workshops, technology talks and student projects.</string>
+
+    <string name="society_sports_name">Campus Sports Club</string>
+    <string name="society_sports_category">Sport</string>
+    <string name="society_sports_description">Social sporting activities for students of all skill levels.</string>
+
+    <string name="society_arts_name">Arts and Culture Society</string>
+    <string name="society_arts_category">Culture</string>
+    <string name="society_arts_description">Creative events celebrating art, music and student culture.</string>
+
+    <string name="society_community_name">Community Outreach</string>
+    <string name="society_community_category">Volunteer</string>
+    <string name="society_community_description">Volunteer initiatives supporting surrounding communities.</string>
+    <!-- Lost and Found sample listings -->
+    <string name="black_backpack">Black backpack</string>
+    <string name="main_library">Main Library</string>
+    <string name="black_backpack_description">Black backpack with a blue keyring.</string>
+
+    <string name="student_access_card">Student access card</string>
+    <string name="cafeteria">Cafeteria</string>
+    <string name="access_card_description">Access card handed to campus security.</string>
+
+    <string name="silver_water_bottle">Silver water bottle</string>
+    <string name="sports_centre">Sports Centre</string>
+    <string name="water_bottle_description">Silver bottle found near the indoor courts.</string>
+
+    <!-- Announcements -->
+    <string name="library_hours_title">Library hours extended</string>
+    <string name="library_hours_date">21 September 2026</string>
+    <string name="library_hours_description">The Main Library will remain open until 22:00 during the examination period.</string>
+
+    <string name="network_maintenance_title">Campus network maintenance</string>
+    <string name="network_maintenance_date">24 September 2026</string>
+    <string name="network_maintenance_description">Short interruptions may occur between 18:00 and 20:00 while maintenance is completed.</string>
+
+    <string name="funding_title">Student funding applications</string>
+    <string name="funding_date">Closing date: 30 September 2026</string>
+    <string name="funding_description">Students are reminded to submit outstanding funding documents before the closing date.</string>
+
+    <!-- Academic Resources -->
+    <string name="referencing_guide_title">Referencing Guide</string>
+    <string name="academic_writing">Academic Writing</string>
+    <string name="referencing_guide_description">A guide to citations, reference lists and avoiding plagiarism.</string>
+
+    <string name="programming_notes_title">Programming Support Notes</string>
+    <string name="application_development">Application Development</string>
+    <string name="programming_notes_description">Revision notes covering Kotlin and object-oriented programming.</string>
+
+    <string name="study_skills_title">Study Skills Toolkit</string>
+    <string name="student_support">Student Support</string>
+    <string name="study_skills_description">Time-management, examination and effective note-taking guidance.</string>
+
+    <!-- Campus Services -->
+    <string name="campus_security_title">Campus Security</string>
+    <string name="available_24_hours">Available 24 hours</string>
+    <string name="campus_security_description">Emergency assistance, safety escorts and lost-property support.</string>
+
+    <string name="student_counselling_title">Student Counselling</string>
+    <string name="counselling_hours">Monday–Friday, 08:00–16:30</string>
+    <string name="student_counselling_description">Confidential wellness and mental-health support for students.</string>
+
+    <string name="it_help_desk_title">IT Help Desk</string>
+    <string name="technology_support">Technology Support</string>
+    <string name="it_help_desk_description">Support for campus Wi-Fi, student accounts and learning systems.</string>
+
+    <!-- Leaderboard -->
+    <string name="you">You</string>
+    <string name="leaderboard_entry">%1$d. %2$s</string>
 </resources>
